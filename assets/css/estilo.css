@@ -1,0 +1,5 @@
+.bg-green {
+    --bs-bg-opacity: 1;
+    --bs-green-rgb: 166,187,144;
+    background-color: rgba(var(--bs-green-rgb),var(--bs-bg-opacity))!important;
+}
