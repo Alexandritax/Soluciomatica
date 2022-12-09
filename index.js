@@ -125,6 +125,7 @@ app.post('/order/:nombre/:precio',async(req, res) => {
     ) */
   }
   const nombre = req.params.nombre
+  const correo = req.params.correo
   const anp = await neoSession.run(
     `Match(n:ANP) where n.nombre= $title return n`,
     {title: nombre})
