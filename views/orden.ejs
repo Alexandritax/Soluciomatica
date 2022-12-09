@@ -1,0 +1,23 @@
+<%- include("starter")%>
+<body>
+    <%-include("cabecera_orden") %>
+    <img class="background" src="<%=imagen%>" alt="Aleq">
+    <div class="container">
+        <div class="card mb-3" style="max-width: 100%;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="<%=imagen%>" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%=nombre%></h5>
+                  <p class="card-text"><%=tickets%>*<%=precio%>=<%=tickets*precio%></p>
+                  <div class="g-0 d-flex justify-content-between align-items-center">
+                    
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+<%- include("footer") %>

@@ -73,6 +73,58 @@ app.get('/buy/:nombre', async(req,res) => {
   })
 })
 
+app.post('/order/:nombre/:precio',async(req, res) => {
+  try{
+    let precio = req.params.precio
+    let tickets = req.body.tickets
+    let importe = precio*tickets
+    let nombre = req.params.nombre
+    const result = await neoSession.run(
+      "Match (a:ANP) where a.nombre=$nombre "+
+      "Create (a)-[nr:TIENE]->(b:BOLETO {reclut:$reclut})-[r:TIENE]->(p:PAGO {cantidad_boletos: $cantidad_boletos,total:$importe,reclut:$reclut}) "+
+      "return a",
+        {
+          reclut: 'Alejandro',
+          cantidad_boletos: tickets,
+          importe:importe,
+          nombre:nombre
+        }
+    )
+    console.log(result.records[0].get(0))
+  } catch(err){
+    console.error(err)
+  }finally{
+    const pago = await neoSession.run(
+      'match (p:PAGO) where p.reclut=$reclut return p',
+      {
+        reclut:'Alejandro',
+      }
+    )
+    console.log(pago.records[0].get(0))
+    /* const restore = await neoSession.run(
+      "match(n) where n.reclut=$reclut Detach delete n",
+        {
+          reclut: 'Alejandro'
+        }
+    ) */
+  }
+  const nombre = req.params.nombre
+  const anp = await neoSession.run(
+    `Match(n:ANP) where n.nombre= $title return n`,
+    {title: nombre})
+  const currentANP = anp.records[0].get(0).properties
+  const imagen = currentANP.imagen
+  const precio = req.params.precio
+  const tickets = req.body.tickets
+  let importe = precio*tickets
+  res.render('orden',{
+    nombre: nombre,
+    precio: precio,
+    tickets:tickets,
+    imagen:imagen
+  })
+})
+
 app.listen(port, () => {
   console.log(`Server running at ${port}`);
 });
