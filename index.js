@@ -38,7 +38,7 @@ app.get('/', async(req, res) => {
     const anpslist = []
     result.records.forEach(record => anpslist.push(record._fields[0].properties))
     //console.log("URL=" +result.records[0].get(0).properties.imagen)
-    console.log(anpslist)
+    //console.log(anpslist)
     console.log('Connection with sequelize and neo4j has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
@@ -73,6 +73,22 @@ app.get('/buy/:nombre', async(req,res) => {
   })
 })
 
+app.get('/ordertest',async(req,res)=>{
+  const nombre = 'Bosque Berlín'
+  const anp = await neoSession.run(
+    `Match(n:ANP) where n.nombre= $title return n`,
+    {title: nombre})
+  const currentANP = anp.records[0].get(0).properties
+  const imagen = currentANP.imagen
+  res.render('orden',{
+    nombre: nombre,
+    imagen: imagen,
+    tickets:2,
+    precio: 20
+  })
+  
+})
+
 app.post('/order/:nombre/:precio',async(req, res) => {
   try{
     let precio = req.params.precio
@@ -90,7 +106,7 @@ app.post('/order/:nombre/:precio',async(req, res) => {
           nombre:nombre
         }
     )
-    console.log(result.records[0].get(0))
+    //console.log(result.records[0].get(0))
   } catch(err){
     console.error(err)
   }finally{

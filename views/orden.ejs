@@ -8,16 +8,21 @@
               <div class="col-md-4">
                 <img src="<%=imagen%>" class="img-fluid rounded-start" alt="...">
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title"><%=nombre%></h5>
-                  <p class="card-text"><%=tickets%>*<%=precio%>=<%=tickets*precio%></p>
-                  <div class="g-0 d-flex justify-content-between align-items-center">
-                    
+                <div class="col-md-8">
+                    <div class="card-body" style="text-align:center">
+                        <h5 class="card-title">Transaccion exitosa! <%=nombre%></h5>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg" class="img-responsive" height="150" width="150" alt="...">
+                        <div >
+                            <p text-align="center" margin="auto">
+                                Tu compra ha sido concretada <br>Revisa tu correo para ver <br>la informacion de su compra <br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                        <a href="/" class="btn btn-primary custom-btn" >CONTINUAR ></a>
+                    </div>
                 </div>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
     </div>
 <%- include("footer") %>
