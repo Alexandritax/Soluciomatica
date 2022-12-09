@@ -12,6 +12,9 @@ const sequelize = new Sequelize('postgres', 'postulante', 'solucionatica2022', {
   dialect: 'postgres'
 });
 
+const neo4j = require('neo4j-driver')
+const driver = neo4j.driver('neo4j+s://bd720e6b.databases.neo4j.io', neo4j.auth.basic('postulante', 'solucionatica2022'))
+const neoSession = driver.session()
 const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -29,7 +32,11 @@ app.get('/', async(req, res) => {
   res.render('catalogo')
   try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+    const result = await neoSession.run(
+      'MATCH(n) RETURN n'
+    )
+    console.log(result.records[0].get(0))
+    console.log('Connection with sequelize and neo4j has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
