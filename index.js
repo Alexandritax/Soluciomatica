@@ -29,17 +29,27 @@ app.use(session({
 }))
 
 app.get('/', async(req, res) => {
-  res.render('catalogo')
+
   try {
     await sequelize.authenticate();
     const result = await neoSession.run(
-      'MATCH(n) RETURN n'
+      'MATCH(n:ANP) RETURN n'
     )
-    console.log(result.records[0].get(0))
+    const anpslist = []
+    result.records.forEach(record => anpslist.push(record._fields[0].properties))
+    console.log(anpslist)
     console.log('Connection with sequelize and neo4j has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
+  const anps = await neoSession.run(
+    'MATCH(n:ANP) RETURN n'
+  )
+  const anpRecords = anps.records
+  const anpList = []
+  anpRecords.forEach(record => anpList.push(record._fields[0].properties))
+  console.log(anpList)
+  res.render('catalogo',{anps:anpList})
 })
 
 app.listen(port, () => {
