@@ -3,9 +3,13 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 
 const { render } = require('ejs');
+const { Sequelize } = require('sequelize');
 
 const port = 3000;
-
+const sequelize = new Sequelize('postgres', 'postulante', 'solucionatica2022', {
+  host: 'reclutamiento-instance-1.cgcdn4lykdst.us-east-1.rds.amazonaws.com',
+  dialect: 'postgres'
+});
 const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -19,8 +23,14 @@ app.use(session({
     saveUninitialized: false
 }))
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
   res.render('catalogo')
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 })
 
 app.listen(port, () => {
