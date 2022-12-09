@@ -1,0 +1,34 @@
+<%- include("starter")%>
+<body>
+    <%-include("cabecera_compra") %>
+    <img class="background" src="<%=imagen%>" alt="Aleq">
+    <div class="container">
+        <div class="card mb-3" style="max-width: 100%;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="<%=imagen%>" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><%=nombre%></h5>
+                  <p class="card-text"><%=descripcion%></p>
+                  <div class="row g-0 d-flex justify-content-between align-items-center">
+                    <div class="col-3 col-md-4 p-3" width="12px">
+                        <div class="input-group">
+                            <input type="number" min="1" value="1" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" id="ticket">
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-4">
+                        <p class="card-text"><small class="text-muted">Precio: <span id="precio"><%=precio%></span> PEN</small></p>
+                    </div>
+                    <div class="col-3">
+                        <p class="card-text">Precio total: <span id="importe"><%=precio%></span> PEN</p>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    <script src="\js\calculator.js"></script>
+<%- include("footer") %>

@@ -37,6 +37,7 @@ app.get('/', async(req, res) => {
     )
     const anpslist = []
     result.records.forEach(record => anpslist.push(record._fields[0].properties))
+    //console.log("URL=" +result.records[0].get(0).properties.imagen)
     console.log(anpslist)
     console.log('Connection with sequelize and neo4j has been established successfully.');
   } catch (error) {
@@ -47,9 +48,29 @@ app.get('/', async(req, res) => {
   )
   const anpRecords = anps.records
   const anpList = []
+  const imagen = anps.records[0].get(0).properties.imagen
   anpRecords.forEach(record => anpList.push(record._fields[0].properties))
-  console.log(anpList)
-  res.render('catalogo',{anps:anpList})
+  //console.log(anpList)
+  res.render('catalogo',{anps:anpList,imagen:imagen})
+})
+
+app.get('/buy/:nombre', async(req,res) => {
+  const nombre = req.params.nombre
+  const anp = await neoSession.run(
+    `Match(n:ANP) where n.nombre= $title return n`,
+    {title: nombre})
+  const currentANP = anp.records[0].get(0).properties
+  const precio = currentANP.precio
+  const imagen = currentANP.imagen
+  const descripcion = currentANP.descripcion
+  
+
+  res.render('comprar',{
+    nombre:nombre,
+    precio:precio,
+    imagen:imagen,
+    descripcion:descripcion
+  })
 })
 
 app.listen(port, () => {
