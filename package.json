@@ -1,4 +1,11 @@
 {
+  "name": "soluciomatica",
+  "version":"1.0.0",
+  "main":"index.js",
+  "scripts": {
+    "start:dev":"npx nodemon index.js",
+    "start":"node index.js"
+  },
   "dependencies": {
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
@@ -13,5 +20,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandritax/Soluciomatica.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Alexandritax/Soluciomatica/issues"
+  },
+  "homepage": "https://github.com/Alexandritax/Soluciomatica#readme"
 }
