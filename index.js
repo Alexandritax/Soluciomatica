@@ -133,7 +133,7 @@ app.post('/order/:nombre',async(req, res) => {
 })
 
 function isEmail(emailAdress){
-  let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?(?=(\w+))\2)*(\.\w{2,3})+$/;
+  let regex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
 
   return !!(emailAdress.match(regex));
 }
