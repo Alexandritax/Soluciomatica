@@ -1,4 +1,7 @@
 # Soluciomatica
+
+Es crucial el archivo .env, el cual no se encuentra incluido en este repositorio por seguridad.
+
 Instrucciones para la ejecucion de este proyecto una vez descargado
 1. En la consola ejecutar los comandos
   - npm install
