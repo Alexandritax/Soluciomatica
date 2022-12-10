@@ -1,10 +1,11 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const { render } = require('ejs');
 
 
-const port = 3000;
+const port = process.env.PORT;
 
 const neo4j = require('neo4j-driver')
 const driver = neo4j.driver('neo4j+s://bd720e6b.databases.neo4j.io', neo4j.auth.basic('postulante', 'solucionatica2022'))
@@ -33,7 +34,6 @@ app.get('/', async(req, res) => {
     const imagen = anps.records[0].get(0).properties.imagen
     anpRecords.forEach(record => anpList.push(record._fields[0].properties))
     res.render('catalogo',{anps:anpList,imagen:imagen})
-    console.log('Connection with neo4j has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
