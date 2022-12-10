@@ -1,0 +1,37 @@
+<%- include('starter') %>
+<body>
+    <%- include('cabecera_catalogo')%>
+    <img class="background" src="<%=imagen%>" alt="Aleq">
+    <div class="album py-5">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <%anps.forEach((anp) => {%>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                            <title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#55595c"></rect>
+                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                        </svg> -->
+                        <img src="<%=anp.imagen%>" width="100%" height="225">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%=anp.nombre%>
+                            </h5>
+                            <p class="card-text">
+                                <%=anp.descripcion%>
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary custom-btn" href="/buy/<%=anp.nombre%>?precio=<%=anp.precio%>&img=<%=anp.imagen%>" role="button" >COMPRAR</a>
+                                </div>
+                                <small class="text-muted"><%=anp.precio%> PEN</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%})%>
+            </div>
+        </div>
+    </div>
+<%- include('footer')%>
