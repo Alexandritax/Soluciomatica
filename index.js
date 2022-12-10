@@ -74,8 +74,8 @@ app.get('/buy/:nombre', async(req,res) => {
   })
 })
 
-app.get('/ordertest',async(req,res)=>{
-  const nombre = 'Bosque Berlín'
+app.get('/finish/:nombre',async(req,res)=>{
+  const nombre = req.params.nombre
   const anp = await neoSession.run(
     `Match(n:ANP) where n.nombre= $title return n`,
     {title: nombre})
@@ -83,9 +83,7 @@ app.get('/ordertest',async(req,res)=>{
   const imagen = currentANP.imagen
   res.render('orden',{
     nombre: nombre,
-    imagen: imagen,
-    tickets:2,
-    precio: 20
+    imagen: imagen
   })
   
 })
@@ -127,20 +125,13 @@ app.post('/order/:nombre/:precio',async(req, res) => {
   }
   const nombre = req.params.nombre
   const correo = req.params.correo
+  /* 
   const anp = await neoSession.run(
     `Match(n:ANP) where n.nombre= $title return n`,
     {title: nombre})
   const currentANP = anp.records[0].get(0).properties
-  const imagen = currentANP.imagen
-  const precio = req.params.precio
-  const tickets = req.body.tickets
-  let importe = precio*tickets
-  res.render('orden',{
-    nombre: nombre,
-    precio: precio,
-    tickets:tickets,
-    imagen:imagen
-  })
+  const imagen = currentANP.imagen */
+  res.redirect(`/finish/${nombre}`)
 })
 
 app.listen(port, () => {
