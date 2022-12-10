@@ -3,14 +3,9 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 
 const { render } = require('ejs');
-const { Sequelize } = require('sequelize');
 
 
 const port = 3000;
-const sequelize = new Sequelize('postgres', 'postulante', 'solucionatica2022', {
-  host: 'reclutamiento-instance-1.cgcdn4lykdst.us-east-1.rds.amazonaws.com',
-  dialect: 'postgres'
-});
 
 const neo4j = require('neo4j-driver')
 const driver = neo4j.driver('neo4j+s://bd720e6b.databases.neo4j.io', neo4j.auth.basic('postulante', 'solucionatica2022'))
@@ -31,7 +26,6 @@ app.use(session({
 
 app.get('/', async(req, res) => {
   try {
-    await sequelize.authenticate();
     const anps = await neoSession.run(
       'MATCH(n:ANP) RETURN n'
     )
@@ -40,7 +34,7 @@ app.get('/', async(req, res) => {
     const imagen = anps.records[0].get(0).properties.imagen
     anpRecords.forEach(record => anpList.push(record._fields[0].properties))
     res.render('catalogo',{anps:anpList,imagen:imagen})
-    console.log('Connection with sequelize and neo4j has been established successfully.');
+    console.log('Connection with neo4j has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
