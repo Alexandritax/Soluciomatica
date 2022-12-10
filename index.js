@@ -30,29 +30,20 @@ app.use(session({
 }))
 
 app.get('/', async(req, res) => {
-
   try {
     await sequelize.authenticate();
-    const result = await neoSession.run(
+    const anps = await neoSession.run(
       'MATCH(n:ANP) RETURN n'
     )
-    const anpslist = []
-    result.records.forEach(record => anpslist.push(record._fields[0].properties))
-    //console.log("URL=" +result.records[0].get(0).properties.imagen)
-    //console.log(anpslist)
+    const anpRecords = anps.records
+    const anpList = []
+    const imagen = anps.records[0].get(0).properties.imagen
+    anpRecords.forEach(record => anpList.push(record._fields[0].properties))
+    res.render('catalogo',{anps:anpList,imagen:imagen})
     console.log('Connection with sequelize and neo4j has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-  const anps = await neoSession.run(
-    'MATCH(n:ANP) RETURN n'
-  )
-  const anpRecords = anps.records
-  const anpList = []
-  const imagen = anps.records[0].get(0).properties.imagen
-  anpRecords.forEach(record => anpList.push(record._fields[0].properties))
-  //console.log(anpList)
-  res.render('catalogo',{anps:anpList,imagen:imagen})
 })
 
 app.get('/buy/:nombre', async(req,res) => {
@@ -90,14 +81,13 @@ app.get('/finish/:nombre',async(req,res)=>{
 
 app.post('/order/:nombre/:precio',async(req, res) => {
   try{
-    let precio = req.params.precio
     let tickets = req.body.tickets
-    let importe = precio*tickets
+    let importe = req.body.importe
     let nombre = req.params.nombre
     const result = await neoSession.run(
       "Match (a:ANP) where a.nombre=$nombre "+
       "Create (a)-[nr:TIENE]->(b:BOLETO {reclut:$reclut})-[r:TIENE]->(p:PAGO {cantidad_boletos: $cantidad_boletos,total:$importe,reclut:$reclut}) "+
-      "return a",
+      "return p",
         {
           reclut: 'Alejandro',
           cantidad_boletos: tickets,
@@ -105,33 +95,17 @@ app.post('/order/:nombre/:precio',async(req, res) => {
           nombre:nombre
         }
     )
-    //console.log(result.records[0].get(0))
+    const currentANP =  result.records[0].get(0).properties
+    let boletos = currentANP.cantidad_boletos
+    let total = currentANP.total
+    console.log(`Se efectuo la transaccion de ${boletos} por un total de ${total}`)
   } catch(err){
-    console.error(err)
+    console.error('Nuevo error\n'+err)
   }finally{
-    const pago = await neoSession.run(
-      'match (p:PAGO) where p.reclut=$reclut return p',
-      {
-        reclut:'Alejandro',
-      }
-    )
-    console.log(pago.records[0].get(0))
-    /* const restore = await neoSession.run(
-      "match(n) where n.reclut=$reclut Detach delete n",
-        {
-          reclut: 'Alejandro'
-        }
-    ) */
+    let nombre = req.params.nombre
+    res.redirect(`/finish/${nombre}`)
   }
-  const nombre = req.params.nombre
-  const correo = req.params.correo
-  /* 
-  const anp = await neoSession.run(
-    `Match(n:ANP) where n.nombre= $title return n`,
-    {title: nombre})
-  const currentANP = anp.records[0].get(0).properties
-  const imagen = currentANP.imagen */
-  res.redirect(`/finish/${nombre}`)
+  const correo = req.body.correo
 })
 
 app.listen(port, () => {
