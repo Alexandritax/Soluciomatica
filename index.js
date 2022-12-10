@@ -16,6 +16,7 @@ const neo4j = require('neo4j-driver')
 const driver = neo4j.driver('neo4j+s://bd720e6b.databases.neo4j.io', neo4j.auth.basic('postulante', 'solucionatica2022'))
 const neoSession = driver.session()
 const app = express();
+const nodemailer = require("nodemailer");
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: true
