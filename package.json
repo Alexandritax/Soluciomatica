@@ -20,6 +20,7 @@
     "pg-hstore": "^2.3.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.20"
   },
   "repository": {
