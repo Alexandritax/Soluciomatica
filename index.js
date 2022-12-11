@@ -169,7 +169,7 @@ async function sendemail(destinatario,tickets,nombre,importe) {
       from: 'Ticket-Fast <silvasolisdelbarrio@gmail.com>', // sender address
       to: destinatario, // list of receivers
       subject: "Transaccion exitosa",
-      text: `La transaccion de sus ${tickets} boletos para ${nombre} ha sido exitosa. El importe total fue de ${importe}.`, // plain text body
+      text: `La transaccion de sus ${tickets} boletos para ${nombre} ha sido exitosa. El importe total fue de ${importe} soles.`, // plain text body
     }
 
     let info = await transporter.sendMail(mensaje);
