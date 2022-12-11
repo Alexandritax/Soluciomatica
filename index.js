@@ -43,7 +43,7 @@ app.get('/', async(req, res) => {
     const anpList = []
     const imagen = anps.records[0].get(0).properties.imagen
     anpRecords.forEach(record => anpList.push(record._fields[0].properties))
-    console.log(anpList)
+    //console.log(anpList)
     res.render('catalogo',{anps:anpList,imagen:imagen})
   } catch (error) {
     console.error('Unable to connect to the database:', error);
@@ -166,7 +166,7 @@ async function sendemail(destinatario,tickets,nombre,importe) {
     let transporter = nodemailer.createTransport(config)
 
     const mensaje = {
-      from: 'Soluciomatica <silvasolisdelbarrio@gmail.com>', // sender address
+      from: 'Ticket-Fast <silvasolisdelbarrio@gmail.com>', // sender address
       to: destinatario, // list of receivers
       subject: "Transaccion exitosa",
       text: `La transaccion de sus ${tickets} boletos para ${nombre} ha sido exitosa. El importe total fue de ${importe}.`, // plain text body
