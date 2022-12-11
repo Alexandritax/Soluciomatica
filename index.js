@@ -43,6 +43,7 @@ app.get('/', async(req, res) => {
     const anpList = []
     const imagen = anps.records[0].get(0).properties.imagen
     anpRecords.forEach(record => anpList.push(record._fields[0].properties))
+    console.log(anpList)
     res.render('catalogo',{anps:anpList,imagen:imagen})
   } catch (error) {
     console.error('Unable to connect to the database:', error);
